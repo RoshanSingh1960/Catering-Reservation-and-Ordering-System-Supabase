@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sign up — Catering Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="../js/supabase-config.js"></script>
+<script defer src="../js/app.js"></script>
+</head><body>
+
+<nav class="navbar">
+  <div class="container nav-inner">
+    <div class="brand" onclick="window.location.href='../index.html'">
+      <img src="../assets/logo.png" alt="Logo" onclick="window.location.href='../index.html'">
+      <div class="title">Catering Portal</div>
+      <span class="badge">Supabase</span>
+    </div>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../pages/user.html">Products</a>
+      <a href="../pages/cart.html">Cart</a>
+      <a href="../pages/orders.html">Orders</a>
+      <a href="../pages/profile.html">Profile</a>
+      <a href="../pages/login.html" id="loginLink">Login</a>
+      <a href="../pages/signup.html" class="btn">Sign up</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container auth-wrapper">
+  <div class="card form">
+    <h2>Create your account</h2>
+    <p class="muted">Start selling or ordering catering services.</p>
+    <div class="row-gap" style="margin-top:14px">
+      <div class="input-row">
+        <div style="flex:1"><label>Full name</label><input id="signupName" class="input" placeholder="Roshan Singh"/></div>
+        <div style="flex:1"><label>Phone</label><input id="signupPhone" class="input" placeholder="+91 9XXXXXXXXX"/></div>
+      </div>
+      <div><label>Email</label><input id="signupEmail" type="email" class="input" placeholder="you@example.com"/></div>
+      <div class="input-row">
+        <div style="flex:1"><label>Password</label><input id="signupPassword" type="password" class="input" placeholder="••••••••"/></div>
+        <div style="flex:1"><label>Confirm password</label><input id="signupPassword2" type="password" class="input" placeholder="••••••••"/></div>
+      </div>
+      <button class="btn" onclick="handleSignup()">Create account</button>
+      <div id="signupMsg" class="alert" style="display:none;margin-top:8px"></div>
+      <p class="muted">Already have an account? <a href="./login.html">Log in</a></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container footer-inner">
+    <div class="muted">© 2025 Catering Portal. Unified Mentor</div>
+    <p>Sign up with admin@portal.local and use password adminadmin for admin role.</p>
+    <div class="muted">Shortcut: <span class="kbd">/</span> search </div>
+  </div>
+</footer>
+
+</body></html>
