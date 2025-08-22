@@ -1,4 +1,3 @@
-
 let s = null;
 let sessionUser = null;
 const ADMINS = []; // add admin emails here
@@ -8,9 +7,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   const { data: { session } } = await s.auth.getSession();
   sessionUser = session?.user || null;
   updateLoginLink();
+  updateCartCount(); // Update cart count on page load
   s.auth.onAuthStateChange((_event, sess) => {
     sessionUser = sess?.user || null;
     updateLoginLink();
+    updateCartCount(); // Update cart count on auth state changes
   });
   routeInit();
 });
@@ -105,19 +106,24 @@ async function loadProducts(){
 function currentCartKey(){ const uid = sessionUser?.id || 'guest'; return 'cart_'+uid; }
 function getCart(){ try{ return JSON.parse(localStorage.getItem(currentCartKey())) || []; }catch{ return []; } }
 function setCart(items){ localStorage.setItem(currentCartKey(), JSON.stringify(items)); }
+
 function addToCart(id, name, price){
   const cart = getCart();
   const idx = cart.findIndex(i=>i.id===id);
   if (idx>-1) cart[idx].qty += 1; else cart.push({ id, name, price, qty:1 });
   setCart(cart);
+  updateCartCount(); // Update cart count whenever cart changes
   alert('Added to cart');
 }
+
 function removeFromCart(index){
   const cart = getCart();
   cart.splice(index,1);
   setCart(cart);
   loadCart();
+  updateCartCount(); // Update cart count whenever cart changes
 }
+
 function loadCart(){
   const tbody = document.querySelector('#cartTable tbody');
   const totalEl = document.getElementById('cartTotal');
@@ -135,6 +141,15 @@ function loadCart(){
   if (totalEl) totalEl.textContent = `Total: ₹${total}`;
 }
 
+// Update the cart count in navbar
+function updateCartCount(){
+  const cartLink = document.getElementById('cartLink');
+  if (!cartLink) return;
+  const cart = getCart();
+  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+  cartLink.textContent = `Cart(${totalQty})`;
+}
+
 // ORDERS
 async function placeOrder(){
   if (!sessionUser) return showMsg('cartMsg','Please log in first', true);
@@ -145,7 +160,9 @@ async function placeOrder(){
   if (error) return showMsg('cartMsg', error.message, true);
   setCart([]);
   showMsg('cartMsg','Order placed!');
+  alert('Your order has been placed');
   loadCart();
+  updateCartCount();
 }
 async function loadOrders(){
   if (!sessionUser) return;
